@@ -1,0 +1,75 @@
+const sampleData = {
+  products: [
+    {
+      _id: '1',
+      name: 'Free shirt',
+      slug: 'free-shirt',
+      category: 'Shirts',
+      image: '/images/shirt1.jpg',
+      price: 70,
+      brand: 'Nike',
+      rating: 4.5,
+      numReviews: 8,
+      countInStock: 0,
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti neque nihil commodi incidunt similique aut, veritatis quo rerum mollitia ducimus',
+    },
+    {
+      _id: '2',
+      name: 'Fit shirt',
+      slug: 'fit-shirt',
+      category: 'Shirts',
+      image: '/images/shirt2.jpg',
+      price: 90,
+      brand: 'Adidas',
+      rating: 3.5,
+      numReviews: 10,
+      countInStock: 30,
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, explicabo!',
+    },
+    {
+      _id: '3',
+      name: 'Slim shirt',
+      slug: 'slim-shirt',
+      category: 'Shirts',
+      image: '/images/shirt3.jpg',
+      price: 100,
+      brand: 'Raymond',
+      rating: 2.3,
+      numReviews: 3,
+      countInStock: 51,
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. At earum eos ipsum assumenda eligendi deserunt?',
+    },
+    {
+      _id: '4',
+      name: 'Golf Pants',
+      slug: 'golf-pantst',
+      category: 'Pants',
+      image: '/images/pants1.jpg',
+      price: 200,
+      brand: 'Oliver',
+      rating: 2.5,
+      numReviews: 20,
+      countInStock: 5,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+    },
+    {
+      _id: '5',
+      name: 'Fit Pants',
+      slug: 'fit-pantst',
+      category: 'Pants',
+      image: '/images/pants2.jpg',
+      price: 95,
+      brand: 'Zara',
+      rating: 2.7,
+      numReviews: 7,
+      countInStock: 18,
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, ea dolore exercitationem sint deleniti facilis molestias hic voluptate!',
+    },
+  ],
+};
+
+export default sampleData;
