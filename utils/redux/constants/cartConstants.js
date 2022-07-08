@@ -1,0 +1,4 @@
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const MODIFY_QUANTITY = 'MODIFY_QUANTITY';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const CART_RESET = 'CAFRT_RESET';

@@ -1,6 +1,16 @@
 import Link from 'next/link';
+import { useContext } from 'react';
+import { Store } from '../utils/redux/Store';
+import { ADD_TO_CART } from '../utils/redux/constants/cartConstants';
 
 function ProductItem({ product }) {
+  const { state, dispatch } = useContext(Store);
+
+  function handleAddToCart(e) {
+    e.preventDefault();
+    dispatch({ type: ADD_TO_CART, payload: { ...product, qty: 1 } });
+  }
+
   const linkTo = `/product/${product._id}`;
   return (
     <div className="card group">
@@ -21,8 +31,13 @@ function ProductItem({ product }) {
         </Link>
         <p className="mb-2">{product.brand}</p>
         <p>${product.price}</p>
-        <button className="primary-button" type="button">
-          Add to cart
+        <button
+          className="primary-button"
+          type="button"
+          disabled={product.countInStock <= 0}
+          onClick={handleAddToCart}
+        >
+          {product.countInStock <= 0 ? 'Out of Stock' : 'Add to cart'}
         </button>
       </div>
     </div>

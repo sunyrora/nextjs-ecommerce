@@ -1,7 +1,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useContext } from 'react';
+import { Store } from '../utils/redux/Store';
+import { ADD_TO_CART } from '../utils/redux/constants/cartConstants';
 
 function ProductDetails({ product }) {
+  const { state, dispatch } = useContext(Store);
+
+  function handleAddToCart(e) {
+    e.preventDefault();
+    dispatch({ type: ADD_TO_CART, payload: { ...product, qty: 1 } });
+  }
+
   return (
     <div className="py-2 space-y-2">
       <Link href="/">
@@ -44,6 +54,7 @@ function ProductDetails({ product }) {
           <button
             disabled={product.countInStock <= 0}
             className="primary-button w-full"
+            onClick={handleAddToCart}
           >
             Add to cart
           </button>
