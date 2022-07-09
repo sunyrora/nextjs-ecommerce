@@ -26,7 +26,7 @@ function CartList() {
             <p className="font-bold"> ${state.cart.subTotal} </p>
             <button
               onClick={() => {
-                router.push('/shipping');
+                router.push('/login?redirect=/shipping');
               }}
               className="primary-button w-full font-bold"
             >

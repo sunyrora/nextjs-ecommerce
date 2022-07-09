@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input,
+  select,
+  textarea,
+  label {
+    @apply p-2 rounded outline-none focus:ring;
+  }
+}
+
 @layer components {
   .nav_link_right * {
     @apply p-2;
@@ -15,7 +24,7 @@
   }
 
   .primary-button {
-    @apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-amber-500 disabled:opacity-25 disabled:cursor-not-allowed disabled:shadow-none;
+    @apply rounded text-center bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-amber-500 disabled:opacity-25 disabled:cursor-not-allowed disabled:shadow-none;
   }
 
   .secondary-button {
