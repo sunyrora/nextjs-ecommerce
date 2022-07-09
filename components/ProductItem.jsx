@@ -2,13 +2,16 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { Store } from '../utils/redux/Store';
 import { ADD_TO_CART } from '../utils/redux/constants/cartConstants';
+import Router, { useRouter } from 'next/router';
 
 function ProductItem({ product }) {
   const { state, dispatch } = useContext(Store);
+  const router = useRouter();
 
   function handleAddToCart(e) {
     e.preventDefault();
     dispatch({ type: ADD_TO_CART, payload: { ...product, qty: 1 } });
+    router.push('/cart');
   }
 
   const linkTo = `/product/${product._id}`;
