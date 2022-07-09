@@ -22,4 +22,8 @@
   .product-details-card > div {
     @apply my-2 md:mb-2 md:mt-0 flex space-x-1 justify-between;
   }
+
+  .cart-item-row {
+    @apply py-5 text-center align-middle border-b;
+  }
 }
