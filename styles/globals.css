@@ -38,4 +38,8 @@
   .cart-item-row {
     @apply py-5 text-center align-middle border-b;
   }
+
+  .form-error-message {
+    @apply text-red-500 text-sm;
+  }
 }
