@@ -1,18 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { TrashIcon } from '@heroicons/react/outline';
-import { useContext } from 'react';
-import { Store } from '../utils/redux/Store';
-import { REMOVE_FROM_CART } from '../utils/redux/constants/cartConstants';
+import { useState } from 'react';
 
-function CartItem({ item }) {
-  const { state, dispatch } = useContext(Store);
-
-  function handleRemoveFromCart(e) {
-    e.preventDefault();
-    dispatch({ type: REMOVE_FROM_CART, payload: { id: item._id } });
-  }
-
+function CartItem({ item, onRemoveFromCart, onQtyChange }) {
   return (
     <div className="table-row-group">
       <div className="table-row">
@@ -24,10 +15,25 @@ function CartItem({ item }) {
             </a>
           </Link>
         </div>
-        <div className="table-cell cart-item-row">{item.qty}</div>
-        <div className="table-cell cart-item-row">${item.price}</div>
         <div className="table-cell cart-item-row">
-          <button onClick={handleRemoveFromCart}>
+          <select
+            className="cartitem__select"
+            value={item.qty}
+            onChange={(e) => onQtyChange(item._id, e.target.value)}
+          >
+            {[...Array(item.countInStock).keys()].map((x) => (
+              <option key={x + 1} value={x + 1}>
+                {x + 1}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="table-cell cart-item-row">
+          <p>${item.price * item.qty}</p>
+          <p>({item.price} / unit)</p>
+        </div>
+        <div className="table-cell cart-item-row">
+          <button onClick={(e) => onRemoveFromCart(item._id)}>
             <TrashIcon className="h-5 w-5" />
           </button>
         </div>

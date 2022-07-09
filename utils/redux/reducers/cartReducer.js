@@ -56,6 +56,19 @@ const removeFromCart = (cartState, id) => {
   };
 };
 
+const modifyQty = (cartState, id, qty) => {
+  const cartItems = cartState.cartItems.map((item) =>
+    item._id === id ? { ...item, qty: qty } : item
+  );
+  const itemCount = getCartItemCount(cartItems);
+  const subTotal = getCartSubTotal(cartItems);
+  return {
+    cartItems,
+    itemCount,
+    subTotal,
+  };
+};
+
 export function cartReducer(state, action) {
   switch (action.type) {
     case cartActions.ADD_TO_CART: {
@@ -64,17 +77,22 @@ export function cartReducer(state, action) {
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
     }
-    case cartActions.CART_RESET:
-      {
-        return action.payload
-          ? { ...state, cart: { ...action.payload.cart } }
-          : initialState;
-      }
-      break;
-    case cartActions.MODIFY_QUANTITY:
-      {
-      }
-      break;
+    case cartActions.CART_RESET: {
+      return action.payload
+        ? { ...state, cart: { ...action.payload.cart } }
+        : initialState;
+    }
+    case cartActions.MODIFY_QUANTITY: {
+      const { id, qty } = action.payload;
+      const newCartState = modifyQty(state.cart, id, qty);
+      const newState = {
+        ...state,
+        cart: { ...newCartState },
+      };
+
+      localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
+      return newState;
+    }
     case cartActions.REMOVE_FROM_CART: {
       const id = action.payload.id;
       const cart = removeFromCart(state.cart, id);

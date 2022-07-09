@@ -21,15 +21,14 @@ function CartList() {
       ) : (
         <div className="flex flex-col md:flex-row">
           <CartItemsTable cartItems={cartItems} />
-          <div className="card card-cart-checout">
-            <span className="text-xl">
-              Subtotal {state.cart.itemCount} items: ${state.cart.subTotal}
-            </span>
+          <div className="card card-cart-chekcout">
+            <p>Subtotal {state.cart.itemCount} items</p>
+            <p className="font-bold"> ${state.cart.subTotal} </p>
             <button
               onClick={() => {
                 router.push('/shipping');
               }}
-              className="primary-button w-full"
+              className="primary-button w-full font-bold"
             >
               Check OUt
             </button>
