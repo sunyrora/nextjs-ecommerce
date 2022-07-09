@@ -44,6 +44,18 @@ const addToCart = (state, newItem) => {
   return { itemCount, subTotal, cartItems: [...cartItems] };
 };
 
+const removeFromCart = (cartState, id) => {
+  const cartItems = cartState.cartItems.filter((item) => item._id !== id);
+  const itemCount = getCartItemCount(cartItems);
+  const subTotal = getCartSubTotal(cartItems);
+
+  return {
+    cartItems,
+    itemCount,
+    subTotal,
+  };
+};
+
 export function cartReducer(state, action) {
   switch (action.type) {
     case cartActions.ADD_TO_CART: {
@@ -64,6 +76,11 @@ export function cartReducer(state, action) {
       }
       break;
     case cartActions.REMOVE_FROM_CART: {
+      const id = action.payload.id;
+      const cart = removeFromCart(state.cart, id);
+      const newState = { ...state, cart: { ...cart } };
+      localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
+      return newState;
     }
 
     default:
