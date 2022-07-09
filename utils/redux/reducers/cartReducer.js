@@ -10,8 +10,8 @@ const getCartSubTotal = (cartItems) =>
     0
   );
 
-const addToCart = (state, newItem) => {
-  const currentCart = state.cart;
+const addToCart = (cartState, newItem) => {
+  const currentCart = cartState;
 
   const existItem = currentCart.cartItems.find(
     (item) => item._id === newItem._id
@@ -59,7 +59,7 @@ const removeFromCart = (cartState, id) => {
 export function cartReducer(state, action) {
   switch (action.type) {
     case cartActions.ADD_TO_CART: {
-      const newCartState = addToCart(state, action.payload);
+      const newCartState = addToCart(state.cart, action.payload);
       const newState = { ...state, cart: { ...newCartState } };
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
