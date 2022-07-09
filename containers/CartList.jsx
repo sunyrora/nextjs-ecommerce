@@ -17,18 +17,26 @@ function CartList() {
           Your cart is empty. <Link href="/">Go shopping</Link>
         </div>
       ) : (
-        <div className="table w-full">
-          <div className="table-header-group">
-            <div className="table-row overflow-x-auto">
-              <div className="table-cell cart-item-row">Item</div>
-              <div className="table-cell cart-item-row">Quantity</div>
-              <div className="table-cell cart-item-row">Price</div>
-              <div className="table-cell cart-item-row"></div>
+        <div className="flex flex-col md:flex-row">
+          <div className="table w-full">
+            <div className="table-header-group">
+              <div className="table-row overflow-x-auto">
+                <div className="table-cell cart-item-row">Item</div>
+                <div className="table-cell cart-item-row">Quantity</div>
+                <div className="table-cell cart-item-row">Price</div>
+                <div className="table-cell cart-item-row"></div>
+              </div>
             </div>
+            {cartItems?.map((item) => (
+              <CartItem key={item._id} item={item} />
+            ))}
           </div>
-          {cartItems?.map((item) => (
-            <CartItem key={item._id} item={item} />
-          ))}
+          <div className="card card-cart-checout">
+            <span className="text-xl">
+              Subtotal {state.cart.itemCount} items: ${state.cart.subTotal}{' '}
+            </span>
+            <button className="primary-button w-full">Check OUt</button>
+          </div>
         </div>
       )}
     </div>
