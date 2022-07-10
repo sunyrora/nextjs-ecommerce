@@ -31,8 +31,6 @@ function Lgoin() {
       if (result.error) {
         console.error('signIn error: ', result);
       }
-
-      console.log('login result: ', result);
     } catch (error) {
       console.error('Login error: ', error);
     }
@@ -113,12 +111,14 @@ function Lgoin() {
               <a className="font-bold">Register</a>
             </Link>
           </div>
-          <button
-            className="secondary-button m-2 text-sm"
-            onClick={(e) => handleAuth('google')}
-          >
-            SignIn with Google
-          </button>
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              className="secondary-button m-2 text-sm"
+              onClick={(e) => handleAuth('google')}
+            >
+              SignIn with Google
+            </button>
+          )}
         </form>
       )}
     </div>
