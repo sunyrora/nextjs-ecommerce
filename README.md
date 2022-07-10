@@ -1,8 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) E-Commerce site (in progress).
 
-## Getting Started
+Using MongoDB, next-auth, Tailwindcss.
 
-First, run the development server:
+[View Demo Page](https://nextjs-ecommerce-sunyrora.vercel.app/)
+
+[<img src='./doc/img/demo.png' height='200' />](https://nextjs-ecommerce-sunyrora.vercel.app/)
+
+## Configuration
+
+Create .env.development(.env.local for production build) on the root and define these values:
+
+> `MONGO_URI`=[Your MongoDB URI]
+
+> `GOOGLE_CLIENT_ID`=[GOOGLE CLIENT ID created from Google APIs & Services - [OAuth Credntials](https://console.cloud.google.com/apis/dashboard?)]
+
+> `GOOGLE_CLIENT_SECRET`=[The value from OAuth Credntials like above]
+
+> `NEXTAUTH_SECRET`=[SHA hash]
+>
+> > [Read this documentation](https://next-auth.js.org/configuration/options#secret)
+
+> > You don't need this value for development.
+
+## Run
 
 ```bash
 npm run dev
