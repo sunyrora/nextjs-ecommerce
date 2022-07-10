@@ -28,7 +28,11 @@
   }
 
   .secondary-button {
-    @apply rounded bg-stone-200 py-2 px-4 shadow outline-none hover:bg-stone-400 active:bg-stone-500;
+    @apply rounded text-sm bg-stone-200 py-2 px-4 shadow outline-none hover:bg-stone-400 active:bg-stone-500;
+  }
+
+  .info-button {
+    @apply rounded bg-lime-200 py-2 px-4 shadow outline-none hover:bg-stone-400 active:bg-lime-500;
   }
 
   .product-details-card > div {

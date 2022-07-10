@@ -1,3 +1,4 @@
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import { CART_RESET } from '../utils/redux/constants/cartConstants';
@@ -5,6 +6,7 @@ import { KEY_CART_LOCALSTORAGE } from '../utils/redux/constants/globalConstants'
 import { Store } from '../utils/redux/Store';
 
 function Header() {
+  const { status, data: session } = useSession();
   const { state, dispatch } = useContext(Store);
 
   useEffect(() => {
@@ -30,9 +32,23 @@ function Header() {
               </span>
             </a>
           </Link>
-          <Link href="/login">
-            <a>Login</a>
-          </Link>
+          {status == 'loading' ? (
+            'Loading'
+          ) : session?.user ? (
+            <>
+              <span>{session.user.name}</span>
+              <button
+                onClick={() => signOut()}
+                className="secondary-button text-xs px-2"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
