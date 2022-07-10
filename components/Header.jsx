@@ -4,10 +4,28 @@ import { useContext, useEffect } from 'react';
 import { CART_RESET } from '../utils/redux/constants/cartConstants';
 import { KEY_CART_LOCALSTORAGE } from '../utils/redux/constants/globalConstants';
 import { Store } from '../utils/redux/Store';
+import Dropdown from './Dropdown';
 
 function Header() {
   const { status, data: session } = useSession();
   const { state, dispatch } = useContext(Store);
+
+  const dropdownMenuItems = [
+    {
+      handleOnClick: () => {},
+      label: 'Profile',
+    },
+    {
+      handleOnClick: () => {},
+      label: 'Oder History',
+    },
+    {
+      handleOnClick: () => {
+        signOut({ callbackUrl: '/login' });
+      },
+      label: 'Logout',
+    },
+  ];
 
   useEffect(() => {
     // To make cart items stay when refresh page
@@ -36,13 +54,16 @@ function Header() {
             'Loading'
           ) : session?.user ? (
             <>
-              <span>{session.user.name}</span>
-              <button
+              {/* <span>{session.user.name}</span> */}
+              <Dropdown
+                data={{ label: session.user.name, items: dropdownMenuItems }}
+              />
+              {/* <button
                 onClick={() => signOut()}
                 className="secondary-button text-xs px-2"
               >
                 Logout
-              </button>
+              </button> */}
             </>
           ) : (
             <Link href="/login">

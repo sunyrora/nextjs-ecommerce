@@ -9,6 +9,10 @@
   label {
     @apply p-2 rounded outline-none focus:ring;
   }
+
+  a {
+    @apply text-blue-600 hover:text-blue-800;
+  }
 }
 
 @layer components {
