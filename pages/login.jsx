@@ -5,3 +5,11 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      title: 'Login',
+    },
+  };
+};

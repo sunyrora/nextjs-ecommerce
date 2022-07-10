@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { ERROR_USER_EXIST } from '../utils/redux/constants/errorMessages';
 
-function Lgoin() {
+function Register() {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   const { redirect } = router.query;
@@ -17,12 +19,29 @@ function Lgoin() {
 
   const {
     register,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async ({ username, email, password }) => {
+    console.log(
+      'username: ',
+      username,
+      'email: ',
+      email,
+      'password: ',
+      password
+    );
     try {
+      await axios.post('/api/auth/register', {
+        username,
+        email,
+        password,
+      });
+
+      console.log('Register result: ', result);
+
       const result = await signIn('credentials', {
         redirect: false,
         email,
@@ -34,20 +53,16 @@ function Lgoin() {
 
       console.log('login result: ', result);
     } catch (error) {
-      console.error('Login error: ', error);
+      if (error.response.data.error === ERROR_USER_EXIST) {
+        alert('You already have an account. Go to Login');
+        router.push(`/login?redirect=?${redirect || '/'}`);
+
+        return;
+      }
+
+      console.error('Register error: ', error);
     }
   };
-
-  function handleAuth(providerID) {
-    try {
-      const { error, status, ok, url } = signIn(providerID);
-      if (error) {
-        console.error('signIn error: ', error, ' status: ', status);
-      }
-    } catch (error) {
-      console.error('Login error: ', error);
-    }
-  }
 
   return (
     <div className="flex items-center justify-center rounded-lg border-gray-200 shadow-md w-full p-5 m-5">
@@ -56,9 +71,29 @@ function Lgoin() {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col justify-center max-w-xl"
         >
-          <h1 className="mb-5 text-xl text-center">Login</h1>
-          <div className="login-form ">
+          <h1 className="mb-5 text-xl text-center">Create Account</h1>
+          <div className="register-form ">
             <div className="inline-grid grid-cols-4 gap-5 overflow-x-auto items-center">
+              <label className="col-span-1" htmlFor="username">
+                Name
+              </label>
+              <div className="col-span-3 p-1">
+                <input
+                  type="text"
+                  {...register('username', {
+                    required: 'Please enter your name',
+                  })}
+                  id="username"
+                  placeholder="Enter your name"
+                  className="w-full border-b"
+                  autoFocus
+                />
+                {errors.username && (
+                  <div className="form-error-message">
+                    {errors.username.message}
+                  </div>
+                )}
+              </div>
               <label className="col-span-1" htmlFor="email">
                 Email
               </label>
@@ -72,7 +107,6 @@ function Lgoin() {
                   id="email"
                   placeholder="Enter your email"
                   className="w-full border-b"
-                  autoFocus
                 />
                 {errors.email && (
                   <div className="form-error-message">
@@ -104,25 +138,44 @@ function Lgoin() {
                   </div>
                 )}
               </div>
+              <label className="col-span-1" htmlFor="confirm_password">
+                Confirm Password
+              </label>
+              <div className="col-span-3 p-1">
+                <input
+                  type="password"
+                  {...register('confirm_password', {
+                    required: 'Password not match',
+                    validate: (value) => value === getValues('password'),
+                    minLength: {
+                      value: 6,
+                      message: 'Password not match',
+                    },
+                  })}
+                  id="confirm_password"
+                  placeholder="Confirm your password"
+                  autoComplete="off"
+                  className="w-full border-b"
+                />
+                {errors.confirm_password && (
+                  <div className="form-error-message">
+                    {errors.confirm_password.message}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          <button className="primary-button my-5">Login</button>
+          <button className="primary-button my-5">Register</button>
           <div>
-            {`Don't have an account? `}
-            <Link href={`/register?redirect=?${redirect || '/'}`}>
-              <a className="font-bold">Register</a>
+            {`Already have an account? `}
+            <Link href={`/login?redirect=?${redirect || '/'}`}>
+              <a className="font-bold">Login</a>
             </Link>
           </div>
-          <button
-            className="secondary-button m-2 text-sm"
-            onClick={(e) => handleAuth('google')}
-          >
-            SignIn with Google
-          </button>
         </form>
       )}
     </div>
   );
 }
 
-export default Lgoin;
+export default Register;
