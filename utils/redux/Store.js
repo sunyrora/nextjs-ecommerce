@@ -8,6 +8,7 @@ export const initialState = {
     itemCount: 0,
     subTotal: 0,
     cartItems: [],
+    shippingAddress: {},
   },
 };
 

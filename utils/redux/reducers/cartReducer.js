@@ -100,6 +100,20 @@ export function cartReducer(state, action) {
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
     }
+    case cartActions.CART_SAVE_SHIPPING_ADDRESS: {
+      const newState = {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: {
+            ...state.cart.shippingAddress,
+            ...action.payload,
+          },
+        },
+      };
+      localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
+      return newState;
+    }
 
     default:
       return state;

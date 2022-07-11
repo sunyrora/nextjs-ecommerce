@@ -1,8 +1,6 @@
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
-import { CART_RESET } from '../utils/redux/constants/cartConstants';
-import { KEY_CART_LOCALSTORAGE } from '../utils/redux/constants/globalConstants';
+import { useContext } from 'react';
 import { Store } from '../utils/redux/Store';
 import Dropdown from './Dropdown';
 
@@ -26,14 +24,6 @@ function Header() {
       label: 'Logout',
     },
   ];
-
-  useEffect(() => {
-    // To make cart items stay when refresh page
-    const cartLocalStorage = localStorage.getItem(KEY_CART_LOCALSTORAGE);
-    if (cartLocalStorage) {
-      dispatch({ type: CART_RESET, payload: JSON.parse(cartLocalStorage) });
-    }
-  }, []);
 
   return (
     <nav>

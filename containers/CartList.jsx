@@ -12,7 +12,7 @@ function CartList() {
   } = state;
 
   return (
-    <div>
+    <div className="flex flex-col w-full">
       <h1 className="mb4 text-xl">Shopping Cart</h1>
       {cartItems?.length <= 0 ? (
         <div>

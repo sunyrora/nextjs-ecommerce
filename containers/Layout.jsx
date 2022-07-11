@@ -1,8 +1,22 @@
 import Head from 'next/head';
+import { useContext, useEffect } from 'react';
 import Header from '../components/Header';
+import { CART_RESET } from '../utils/redux/constants/cartConstants';
+import { KEY_CART_LOCALSTORAGE } from '../utils/redux/constants/globalConstants';
+import { Store } from '../utils/redux/Store';
 
 function Layout({ title, children }) {
+  const { state, dispatch } = useContext(Store);
   const baseTitle = 'Next.JS E-commerce';
+
+  useEffect(() => {
+    // To make cart items stay when refresh page
+    const cartLocalStorage = localStorage.getItem(KEY_CART_LOCALSTORAGE);
+    if (cartLocalStorage) {
+      dispatch({ type: CART_RESET, payload: JSON.parse(cartLocalStorage) });
+    }
+  }, []);
+
   return (
     <>
       <div>
@@ -17,7 +31,9 @@ function Layout({ title, children }) {
           <header>
             <Header />
           </header>
-          <main className="container m-auto mt-4 px-4">{children}</main>
+          <main className="container flex justify-center m-auto mt-4 px-4">
+            {children}
+          </main>
           <footer className="flex h-10 justify-center items-center shadow-inner">
             <p>Copyright ©2022 Sunyrora </p>
           </footer>
