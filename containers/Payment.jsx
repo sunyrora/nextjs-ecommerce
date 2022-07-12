@@ -1,14 +1,48 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import ChekoutWizard from './ChekoutWizard';
+import {
+  forwardRef,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
+import { CART_CHECKOUT_PAYMENT_METHOD } from '../utils/redux/constants/cartConstants';
+import { Store } from '../utils/redux/Store';
 
-function Payment() {
+const Payment = forwardRef((props, ref) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
-  const router = useRouter();
-  const { pathname } = router;
+  const { state, dispatch } = useContext(Store);
+  const { paymentMethod } = state.cart;
+
+  useEffect(() => {
+    setSelectedPaymentMethod(paymentMethod ?? '');
+  }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: CART_CHECKOUT_PAYMENT_METHOD,
+      payload: selectedPaymentMethod,
+    });
+  }, [selectedPaymentMethod]);
+
+  const handleSelectPaymentMethod = (e) => {
+    setSelectedPaymentMethod(e.target.value);
+  };
+
+  useImperativeHandle(ref, () => ({
+    checkValidation,
+  }));
+
+  const checkValidation = () => {
+    if (!selectedPaymentMethod) {
+      alert('Payment Method is required.');
+      return false;
+    }
+
+    console.log('return true!!!');
+    return true;
+  };
+
   return (
-    // <ChekoutWizard activeStep={1} currPath={pathname}>
     <form className="mx-auto mzs-w-screen-md">
       <legend className="pb-3">Choose a payment method</legend>
       <fieldset
@@ -16,10 +50,7 @@ function Payment() {
         className="fieldset-paymentMethod flex flex-col"
       >
         {['Paypal', 'Stripe', 'CachOnDelivery'].map((method) => (
-          <div
-            key={method}
-            //   onClick={() => setSelectedPaymentMethod(e.target.value)}
-          >
+          <div key={method}>
             <input
               type="radio"
               className="outline-none focus:ring-0 checked:bg-blue-500 default:ring"
@@ -27,20 +58,14 @@ function Payment() {
               id={method}
               name="paymentMethod"
               checked={selectedPaymentMethod === method}
-              onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+              onChange={(e) => handleSelectPaymentMethod(e)}
             />
             <label htmlFor={method}>{method}</label>
           </div>
         ))}
       </fieldset>
-      {/* <div className="mb-4 flex justify-between">
-        <Link href={{ pathname: '/placeoder' }}>
-          <button className="default-button">Next</button>
-        </Link>
-      </div> */}
     </form>
-    // </ChekoutWizard>
   );
-}
+});
 
 export default Payment;

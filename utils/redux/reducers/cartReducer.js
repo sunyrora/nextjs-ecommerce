@@ -123,6 +123,17 @@ export function cartReducer(state, action) {
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
     }
+    case cartActions.CART_CHECKOUT_PAYMENT_METHOD: {
+      const newState = {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: action.payload,
+        },
+      };
+      localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
+      return newState;
+    }
 
     default:
       return state;

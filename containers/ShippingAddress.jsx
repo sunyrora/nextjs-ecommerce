@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { forwardRef, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CART_SAVE_SHIPPING_ADDRESS } from '../utils/redux/constants/cartConstants';
 import { Store } from '../utils/redux/Store';
 
-function ShippingAddress() {
+const ShippingAddress = forwardRef((props, ref) => {
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
-  const { pathname } = router;
   const {
     handleSubmit,
     register,
@@ -130,5 +129,5 @@ function ShippingAddress() {
       </div>
     </form>
   );
-}
+});
 export default ShippingAddress;

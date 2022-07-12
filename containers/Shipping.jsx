@@ -2,32 +2,29 @@ import { Store } from '../utils/redux/Store';
 import ChekoutWizard from './ChekoutWizard';
 import ShippingAddress from './ShippingAddress';
 import Payment from './Payment';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import PlaceOrder from './PlaceOrder';
 import { CART_CHECKOUT_ACTIVE_STEP } from '../utils/redux/constants/cartConstants';
 
+function ShippingSteps(step, label, Component) {
+  this.step = step;
+  this.label = label;
+  this.ref = useRef(null);
+  this.component = <Component ref={this.ref} />;
+}
+
 function Shipping() {
   const steps = [
-    {
-      step: 0,
-      label: 'Shipping Addrees',
-      component: <ShippingAddress />,
-    },
-    {
-      step: 1,
-      label: 'Payment Method',
-      component: <Payment />,
-    },
-    {
-      step: 2,
-      label: 'Place Order',
-      component: <PlaceOrder />,
-    },
+    new ShippingSteps(0, 'Shipping Address', ShippingAddress),
+    new ShippingSteps(1, 'Payment Method', Payment),
+    new ShippingSteps(2, 'Place Order', PlaceOrder),
   ];
 
   const { state, dispatch } = useContext(Store);
   const [activeStep, setActiveStep] = useState(steps[0].step);
-  const [ActiveComponent, setActiveComponent] = useState(steps[0].component);
+  const [ActiveComponent, setActiveComponent] = useState(
+    steps[0].component ?? null
+  );
 
   useEffect(() => {
     setActiveStep(state.cart?.activeStep ?? '');
@@ -41,11 +38,19 @@ function Shipping() {
     });
   }, [activeStep]);
 
-  const handleStepchange = (step) => {
-    if (step < 0 || step > steps.length - 1) {
+  const handleStepchange = (nextStep) => {
+    if (nextStep < 0 || nextStep > steps.length - 1) {
       return;
     }
-    setActiveStep(step);
+
+    if (
+      nextStep > activeStep &&
+      steps[activeStep]?.ref?.current?.checkValidation &&
+      !steps[activeStep]?.ref?.current?.checkValidation()
+    )
+      return;
+
+    setActiveStep(nextStep);
   };
 
   return (
