@@ -83,8 +83,8 @@ export function cartReducer(state, action) {
         : initialState;
     }
     case cartActions.MODIFY_QUANTITY: {
-      const { id, qty } = action.payload;
-      const newCartState = modifyQty(state.cart, id, qty);
+      const { _id, qty } = action.payload;
+      const newCartState = modifyQty(state.cart, _id, qty);
       const newState = {
         ...state,
         cart: { ...newCartState },

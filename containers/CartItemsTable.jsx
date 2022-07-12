@@ -13,8 +13,8 @@ function CartItemsTable({ cartItems }) {
     dispatch({ type: REMOVE_FROM_CART, payload: { id } });
   }
 
-  function handleQtyChange(id, qty) {
-    dispatch({ type: MODIFY_QUANTITY, payload: { id, qty } });
+  function handleQtyChange(_id, qty) {
+    dispatch({ type: MODIFY_QUANTITY, payload: { _id, qty } });
   }
 
   return (

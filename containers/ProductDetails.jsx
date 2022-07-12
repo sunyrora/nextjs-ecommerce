@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Store } from '../utils/redux/Store';
 import { ADD_TO_CART } from '../utils/redux/constants/cartConstants';
 import { useRouter } from 'next/router';
 
 function ProductDetails({ product }) {
   const { state, dispatch } = useContext(Store);
+  const [qty, setQty] = useState(1);
   const router = useRouter();
 
   function handleAddToCart(e) {
@@ -15,7 +16,7 @@ function ProductDetails({ product }) {
       type: ADD_TO_CART,
       payload: {
         ...product,
-        qty: 1,
+        qty,
       },
     });
 
@@ -65,6 +66,17 @@ function ProductDetails({ product }) {
                   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
                 </div>
               </div>
+              <select
+                className="cartitem__select"
+                value={qty}
+                onChange={(e) => setQty(e.target.value)}
+              >
+                {[...Array(product.countInStock).keys()].map((x) => (
+                  <option key={x + 1} value={x + 1}>
+                    {x + 1}
+                  </option>
+                ))}
+              </select>
               <button
                 disabled={product.countInStock <= 0}
                 className="primary-button w-full"

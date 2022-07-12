@@ -11,7 +11,7 @@ function ProductItem({ product }) {
   function handleAddToCart(e) {
     e.preventDefault();
     dispatch({ type: ADD_TO_CART, payload: { ...product, qty: 1 } });
-    router.push('/cart');
+    // router.push('/cart');
   }
 
   const linkTo = `/product/${product._id}`;
