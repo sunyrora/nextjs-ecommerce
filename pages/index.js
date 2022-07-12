@@ -1,6 +1,5 @@
 import ProductList from '../containers/ProductList';
-import connectDB, { disconnectDB } from '../db/config';
-import Product from '../db/models/Product';
+import { getProducts } from './api/products/productController';
 
 export default function Home({ products }) {
   return <ProductList products={products} />;
@@ -8,10 +7,7 @@ export default function Home({ products }) {
 
 export const getServerSideProps = async () => {
   try {
-    await connectDB();
-    const products = await Product.find().lean();
-    await disconnectDB();
-
+    const products = await getProducts();
     return {
       props: {
         title: 'Home',
