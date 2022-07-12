@@ -34,13 +34,13 @@ function ChekoutWizard({
           className="default-button disabled:invisible"
           disabled={activeStep <= 0}
         >
-          Previous
+          Back
         </button>
         <button
           onClick={() =>
             onClickNext ? onClickNext() : handleCheckoutPage(activeStep + 1)
           }
-          className="default-button"
+          className="primary-button"
         >
           Next
         </button>
