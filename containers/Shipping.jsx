@@ -2,8 +2,9 @@ import { Store } from '../utils/redux/Store';
 import ChekoutWizard from './ChekoutWizard';
 import ShippingAddress from './ShippingAddress';
 import Payment from './Payment';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PlaceOrder from './PlaceOrder';
+import { CART_CHECKOUT_ACTIVE_STEP } from '../utils/redux/constants/cartConstants';
 
 function Shipping() {
   const steps = [
@@ -24,11 +25,20 @@ function Shipping() {
     },
   ];
 
+  const { state, dispatch } = useContext(Store);
   const [activeStep, setActiveStep] = useState(steps[0].step);
   const [ActiveComponent, setActiveComponent] = useState(steps[0].component);
 
   useEffect(() => {
+    setActiveStep(state.cart?.activeStep ?? '');
+  }, []);
+
+  useEffect(() => {
     setActiveComponent(steps[activeStep]?.component);
+    dispatch({
+      type: CART_CHECKOUT_ACTIVE_STEP,
+      payload: activeStep,
+    });
   }, [activeStep]);
 
   const handleStepchange = (step) => {

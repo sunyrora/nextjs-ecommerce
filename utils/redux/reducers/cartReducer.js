@@ -111,6 +111,15 @@ export function cartReducer(state, action) {
           },
         },
       };
+    }
+    case cartActions.CART_CHECKOUT_ACTIVE_STEP: {
+      const newState = {
+        ...state,
+        cart: {
+          ...state.cart,
+          activeStep: action.payload,
+        },
+      };
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
     }

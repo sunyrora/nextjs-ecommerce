@@ -1,6 +1,12 @@
 import Link from 'next/link';
 
-function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
+function ChekoutWizard({
+  steps = [],
+  activeStep = 0,
+  onClickStep,
+  onClickNext = null,
+  children,
+}) {
   const handleCheckoutPage = (step) => {
     onClickStep(step);
   };
@@ -22,7 +28,7 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
       </button>
       <div>{children}</div>
 
-      <div className="my-4 flex justify-between">
+      <div className="my-5 flex justify-between">
         <button
           onClick={() => handleCheckoutPage(activeStep - 1)}
           className="default-button disabled:invisible"
@@ -31,7 +37,9 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
           Previous
         </button>
         <button
-          onClick={() => handleCheckoutPage(activeStep + 1)}
+          onClick={() =>
+            onClickNext ? onClickNext() : handleCheckoutPage(activeStep + 1)
+          }
           className="default-button"
         >
           Next
