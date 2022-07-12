@@ -22,12 +22,10 @@ function Shipping() {
 
   const { state, dispatch } = useContext(Store);
   const [activeStep, setActiveStep] = useState(steps[0].step);
-  const [ActiveComponent, setActiveComponent] = useState(
-    steps[0].component ?? null
-  );
+  const [ActiveComponent, setActiveComponent] = useState(steps[0].component);
 
   useEffect(() => {
-    setActiveStep(state.cart?.activeStep ?? '');
+    setActiveStep(state.cart?.activeStep ?? 0);
   }, []);
 
   useEffect(() => {

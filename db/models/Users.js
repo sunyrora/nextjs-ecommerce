@@ -2,31 +2,36 @@ import { Schema, model, models } from 'mongoose';
 import bcrypt from 'bcryptjs';
 // import jwt from 'jsonwebtoken';
 
-const UserSchema = new Schema({
-  username: {
-    type: String,
-    required: [true, 'Please provide a user name'],
+const UserSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: [true, 'Please provide a user name'],
+    },
+    email: {
+      type: String,
+      requried: [true, 'Please provide a email'],
+      unique: true,
+      match: [
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        'Please provide a valid email',
+      ],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please add a password'],
+      minlength: 6,
+      select: false, // whenever we query for a user, do we want to return the password as well? false -> we don't wans the password to be send back as well unless we explicitly ask the query for it.
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
-  email: {
-    type: String,
-    requried: [true, 'Please provide a email'],
-    unique: true,
-    match: [
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      'Please provide a valid email',
-    ],
-  },
-  password: {
-    type: String,
-    required: [true, 'Please add a password'],
-    minlength: 6,
-    select: false, // whenever we query for a user, do we want to return the password as well? false -> we don't wans the password to be send back as well unless we explicitly ask the query for it.
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { TrashIcon } from '@heroicons/react/outline';
-import { useState } from 'react';
 
 function CartItem({ item, onRemoveFromCart, onQtyChange }) {
   return (
