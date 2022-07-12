@@ -50,4 +50,8 @@
   .form-error-message {
     @apply text-red-500 text-sm;
   }
+
+  .error-message {
+    @apply mb-4 text-red-500;
+  }
 }
