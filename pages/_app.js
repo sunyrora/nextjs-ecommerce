@@ -27,7 +27,6 @@ export default MyApp;
 function Auth({ children }) {
   const router = useRouter();
   const { pathname } = router;
-  console.log(pathname);
   const { status } = useSession({
     required: true,
     onUnauthenticated: () => {

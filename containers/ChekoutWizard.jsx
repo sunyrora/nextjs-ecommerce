@@ -1,22 +1,42 @@
-function ChekoutWizard({ activeStep = 0, children }) {
+import Link from 'next/link';
+
+function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
+  const handleCheckoutPage = (step) => {
+    onClickStep(step);
+  };
   return (
     <div className="flex flex-col justify-center content-center w-full max-w-5xl">
-      <div className="mb-5 flex flex-wrap justify-around w-full">
-        {['Shipping Address', 'Pament Method', 'Place Order'].map(
-          (step, index) => (
-            <div
-              key={step}
-              className={`p-2 my-3 grow flex-auto border-b-2 border-gray-500 ${
-                activeStep >= index &&
-                'border-indigo-500 text-indigo-500 font-bold'
-              }`}
-            >
-              {step}
-            </div>
-          )
-        )}
-      </div>
+      <button className="mb-5 flex flex-wrap justify-around w-full">
+        {steps.map((step) => (
+          <div
+            onClick={() => handleCheckoutPage(step.step)}
+            key={step.label}
+            className={`p-2 my-3 grow flex-auto border-b-2 border-gray-500 ${
+              activeStep >= step.step &&
+              'border-indigo-500 text-indigo-500 font-bold'
+            }`}
+          >
+            <span>{step.label}</span>
+          </div>
+        ))}
+      </button>
       <div>{children}</div>
+
+      <div className="my-4 flex justify-between">
+        <button
+          onClick={() => handleCheckoutPage(activeStep - 1)}
+          className="default-button disabled:invisible"
+          disabled={activeStep <= 0}
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => handleCheckoutPage(activeStep + 1)}
+          className="default-button"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

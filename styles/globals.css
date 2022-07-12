@@ -39,6 +39,10 @@
     @apply rounded bg-lime-200 py-2 px-4 shadow outline-none hover:bg-stone-400 active:bg-lime-500;
   }
 
+  .default-button {
+    @apply rounded text-center text-black bg-gray-100 py-2 px-4 shadow outline-none hover:bg-gray-200 active:bg-gray-300 disabled:opacity-25 disabled:cursor-not-allowed disabled:shadow-none;
+  }
+
   .product-details-card > div {
     @apply my-2 md:mb-2 md:mt-0 flex space-x-1 justify-between;
   }
@@ -53,5 +57,9 @@
 
   .error-message {
     @apply mb-4 text-red-500;
+  }
+
+  .fieldset-paymentMethod > div {
+    @apply my-2;
   }
 }
