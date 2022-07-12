@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { forwardRef, useContext, useEffect } from 'react';
+import { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
 import { useForm } from 'react-hook-form';
 import { CART_SAVE_SHIPPING_ADDRESS } from '../utils/redux/constants/cartConstants';
 import { Store } from '../utils/redux/Store';
@@ -37,11 +37,22 @@ const ShippingAddress = forwardRef((props, ref) => {
         country,
       },
     });
-
-    router.push('/payment');
   }
+
+  const checkValidation = () => {
+    handleSubmit(onSubmit)();
+    return Object.keys(errors).length === 0;
+  };
+  useImperativeHandle(ref, () => ({
+    checkValidation,
+  }));
+
   return (
-    <form className="mx-auto max-w-screen-md" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      id="Shipping Address"
+      className="mx-auto max-w-screen-md"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="full-name">
         <label htmlFor="fullName">Full Name</label>
         <input
@@ -65,7 +76,6 @@ const ShippingAddress = forwardRef((props, ref) => {
           type="text"
           className="w-full"
           id="address"
-          autoFocus
           {...register('address', {
             required: 'Please enter your adress',
             minLength: {
@@ -85,7 +95,6 @@ const ShippingAddress = forwardRef((props, ref) => {
           type="text"
           className="w-full"
           id="city"
-          autoFocus
           {...register('city', {
             required: 'Please enter your city',
           })}
@@ -101,7 +110,6 @@ const ShippingAddress = forwardRef((props, ref) => {
           type="text"
           className="w-full"
           id="postalCode"
-          autoFocus
           {...register('postalCode', {
             required: 'Please enter your postal code',
           })}
@@ -117,7 +125,6 @@ const ShippingAddress = forwardRef((props, ref) => {
           type="text"
           className="w-full"
           id="country"
-          autoFocus
           {...register('country', {
             required: 'Please enter your country',
           })}

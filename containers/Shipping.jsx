@@ -6,11 +6,12 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import PlaceOrder from './PlaceOrder';
 import { CART_CHECKOUT_ACTIVE_STEP } from '../utils/redux/constants/cartConstants';
 
-function ShippingSteps(step, label, Component) {
+function ShippingSteps(step, label, Component, onClickNext = null) {
   this.step = step;
   this.label = label;
   this.ref = useRef(null);
   this.component = <Component ref={this.ref} />;
+  this.onClickNext = onClickNext;
 }
 
 function Shipping() {

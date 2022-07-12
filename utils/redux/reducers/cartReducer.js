@@ -111,6 +111,8 @@ export function cartReducer(state, action) {
           },
         },
       };
+      localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
+      return newState;
     }
     case cartActions.CART_CHECKOUT_ACTIVE_STEP: {
       const newState = {
