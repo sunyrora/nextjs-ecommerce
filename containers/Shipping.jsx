@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CART_SAVE_SHIPPING_ADDRESS } from '../utils/redux/constants/cartConstants';
@@ -6,6 +7,7 @@ import ChekoutWizard from './ChekoutWizard';
 
 function Shipping() {
   const { state, dispatch } = useContext(Store);
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -37,6 +39,8 @@ function Shipping() {
         country,
       },
     });
+
+    router.push('/payment');
   }
   return (
     <ChekoutWizard activeStep={0}>
@@ -68,7 +72,7 @@ function Shipping() {
             className="w-full"
             id="address"
             autoFocus
-            {...register('adress', {
+            {...register('address', {
               required: 'Please enter your adress',
               minLength: {
                 value: 3,
