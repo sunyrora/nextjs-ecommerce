@@ -7,7 +7,7 @@
   select,
   textarea,
   label {
-    @apply p-2 rounded outline-none focus:ring;
+    @apply p-2 rounded outline-none;
   }
 
   a {

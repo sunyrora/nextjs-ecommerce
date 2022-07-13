@@ -16,7 +16,9 @@ function ShippingSteps(step, label, Component, onClickNext = null) {
 
 function Shipping() {
   const steps = [
-    new ShippingSteps(0, 'Shipping Address', ShippingAddress),
+    new ShippingSteps(0, 'Shipping Address', ShippingAddress, (ref, next) => {
+      return () => ref.current.handleSubmit(next);
+    }),
     new ShippingSteps(1, 'Payment Method', Payment),
     new ShippingSteps(2, 'Place Order', PlaceOrder),
   ];
@@ -46,8 +48,9 @@ function Shipping() {
       nextStep > activeStep &&
       steps[activeStep]?.ref?.current?.checkValidation &&
       !steps[activeStep]?.ref?.current?.checkValidation()
-    )
+    ) {
       return;
+    }
 
     setActiveStep(nextStep);
   };

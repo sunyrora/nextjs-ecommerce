@@ -38,7 +38,6 @@ const Payment = forwardRef((props, ref) => {
       return false;
     }
 
-    console.log('return true!!!');
     return true;
   };
 
