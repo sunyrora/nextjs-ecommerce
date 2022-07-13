@@ -77,13 +77,13 @@ export function cartReducer(state, action) {
   switch (action.type) {
     case cartActions.ADD_TO_CART: {
       const newCartState = addToCart(state.cart, action.payload);
-      const newState = { ...state, cart: { ...newCartState } };
+      const newState = { ...state, cart: { ...state.cart, ...newCartState } };
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
     }
     case cartActions.CART_RESET: {
       return action.payload
-        ? { ...state, cart: { ...action.payload.cart } }
+        ? { ...state, cart: { ...state.cart, ...action.payload.cart } }
         : initialState;
     }
     case cartActions.MODIFY_QUANTITY: {
@@ -91,7 +91,7 @@ export function cartReducer(state, action) {
       const newCartState = modifyQty(state.cart, _id, qty);
       const newState = {
         ...state,
-        cart: { ...newCartState },
+        cart: { ...state.cart, ...newCartState },
       };
 
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
@@ -100,7 +100,7 @@ export function cartReducer(state, action) {
     case cartActions.REMOVE_FROM_CART: {
       const id = action.payload.id;
       const cart = removeFromCart(state.cart, id);
-      const newState = { ...state, cart: { ...cart } };
+      const newState = { ...state, cart: { ...state.cart, ...cart } };
       localStorage.setItem(KEY_CART_LOCALSTORAGE, JSON.stringify(newState));
       return newState;
     }
