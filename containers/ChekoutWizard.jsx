@@ -3,13 +3,13 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
     onClickStep(step);
   };
 
-  const handleClickNext = () => {
+  const handleClickNext = (step) => {
     const clickNext = steps[activeStep].onClickNext
       ? steps[activeStep].onClickNext(steps[activeStep].ref, () =>
-          handleCheckoutPage(activeStep + 1)
+          handleCheckoutPage(step)
         )
       : null;
-    clickNext ? clickNext() : handleCheckoutPage(activeStep + 1);
+    clickNext ? clickNext() : handleCheckoutPage(step);
   };
 
   return (
@@ -18,7 +18,8 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
         {steps.map((step) => {
           return (
             <div
-              onClick={() => handleCheckoutPage(step.step)}
+              // onClick={() => handleCheckoutPage(step.step)}
+              onClick={() => handleClickNext(step.step)}
               key={step.label}
               className={`p-2 my-3 grow flex-auto border-b-2 border-gray-500 ${
                 activeStep >= step.step &&
@@ -40,7 +41,10 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
         >
           Back
         </button>
-        <button onClick={handleClickNext} className="primary-button">
+        <button
+          onClick={() => handleClickNext(activeStep + 1)}
+          className="primary-button"
+        >
           Next
         </button>
       </div>

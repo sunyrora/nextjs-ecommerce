@@ -44,6 +44,10 @@ function Shipping() {
       return;
     }
 
+    if (nextStep > activeStep + 1) {
+      nextStep = activeStep + 1;
+    }
+
     if (
       nextStep > activeStep &&
       steps[activeStep]?.ref?.current?.checkValidation &&
