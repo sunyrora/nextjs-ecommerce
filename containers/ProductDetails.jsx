@@ -40,6 +40,7 @@ function ProductDetails({ product }) {
                 alt={product.name}
                 width={640}
                 height={640}
+                className="-z-10"
               />
             </div>
             <div>

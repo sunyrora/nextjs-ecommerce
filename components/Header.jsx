@@ -26,8 +26,8 @@ function Header() {
   ];
 
   return (
-    <nav>
-      <div className="flex flex-row px-4 h-12 items-center  justify-between shadow-md">
+    <nav className="fixed w-full">
+      <div className="flex flex-row px-4 h-12 items-center  justify-between bg-white/95 shadow-md">
         <Link href="/">
           <a className="text-lg font-bold">Home</a>
         </Link>
