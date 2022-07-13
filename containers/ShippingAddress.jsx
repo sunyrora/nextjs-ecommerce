@@ -14,12 +14,20 @@ import { Store } from '../utils/redux/Store';
 const ShippingAddress = forwardRef((props, ref) => {
   const { state, dispatch } = useContext(Store);
   const [isValid, setValid] = useState(false);
+  const router = useRouter();
   const {
     handleSubmit: formHandleSubmit,
     register,
     setValue,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (state.cart.itemCount <= 0) {
+      alert('Your cart is empty. Go to shopping!');
+      router.push('/');
+    }
+  }, []);
 
   useEffect(() => {
     const { shippingAddress } = state.cart;
@@ -31,7 +39,7 @@ const ShippingAddress = forwardRef((props, ref) => {
       setValue('postalCode', postalCode);
       setValue('country', country);
     }
-  }, [state]);
+  }, [state.cart]);
 
   const onSubmit = ({ fullName, address, city, postalCode, country }) => {
     dispatch({
