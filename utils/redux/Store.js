@@ -11,6 +11,7 @@ export const initialState = {
     subTotal: 0,
     cartItems: [],
     shippingAddress: {},
+    paymentMethod: '',
   },
 };
 
