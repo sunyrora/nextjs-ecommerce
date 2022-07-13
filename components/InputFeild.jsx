@@ -40,5 +40,5 @@ const InputFeild = forwardRef(
     );
   }
 );
-
+InputFeild.displayName = 'InputFeild';
 export default InputFeild;
