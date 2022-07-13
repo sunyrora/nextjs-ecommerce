@@ -3,6 +3,10 @@ import { useForm } from 'react-hook-form';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import {
+  LOGIN_ERROR_USER_NOT_EXIST,
+  LOGIN_ERROR_INVALID_PASSWORD,
+} from '../utils/constants';
 
 function Lgoin() {
   const { data: session, status: sessionStatus } = useSession();
@@ -18,6 +22,7 @@ function Lgoin() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
 
@@ -29,7 +34,25 @@ function Lgoin() {
         password,
       });
       if (result.error) {
-        console.error('signIn error: ', result);
+        // console.error('signIn error: ', result);
+        if (result.status === 401) {
+          switch (result.error) {
+            case LOGIN_ERROR_USER_NOT_EXIST:
+              {
+                setError('email', {
+                  type: 'custom',
+                  message: 'No account with this email.',
+                });
+              }
+              break;
+            case LOGIN_ERROR_INVALID_PASSWORD: {
+              setError('password', {
+                type: 'custom',
+                message: "Password doesn't match",
+              });
+            }
+          }
+        }
       }
     } catch (error) {
       console.error('Login error: ', error);

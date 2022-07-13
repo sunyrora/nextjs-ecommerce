@@ -4,6 +4,10 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import connectDB, { disconnectDB } from '../../../db/config';
 import User from '../../../db/models/Users';
+import {
+  LOGIN_ERROR_USER_NOT_EXIST,
+  LOGIN_ERROR_INVALID_PASSWORD,
+} from '../../../utils/constants';
 
 export default NextAuth({
   session: {
@@ -52,7 +56,7 @@ export default NextAuth({
 
         if (!user) {
           console.log('User not found.');
-          throw new Error('User not exist');
+          throw new Error(LOGIN_ERROR_USER_NOT_EXIST);
         }
 
         const isMatch = await user?.matchPassword(credentials.password);
@@ -68,7 +72,7 @@ export default NextAuth({
           };
         }
 
-        throw new Error('Invalid email or password');
+        throw new Error(LOGIN_ERROR_INVALID_PASSWORD);
       },
     }),
   ],
