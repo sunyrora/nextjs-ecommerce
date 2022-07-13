@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import {
   forwardRef,
   useContext,
@@ -14,20 +13,12 @@ import { Store } from '../utils/redux/Store';
 const ShippingAddress = forwardRef((props, ref) => {
   const { state, dispatch } = useContext(Store);
   const [isValid, setValid] = useState(false);
-  const router = useRouter();
   const {
     handleSubmit: formHandleSubmit,
     register,
     setValue,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    if (state.cart.itemCount <= 0) {
-      alert('Your cart is empty. Go to shopping!');
-      router.push('/');
-    }
-  }, []);
 
   useEffect(() => {
     const { shippingAddress } = state.cart;

@@ -5,6 +5,7 @@ import Payment from './Payment';
 import { useContext, useEffect, useRef, useState } from 'react';
 import PlaceOrder from './PlaceOrder';
 import { CART_CHECKOUT_ACTIVE_STEP } from '../utils/redux/constants/cartConstants';
+import { useRouter } from 'next/router';
 
 function ShippingSteps(step, label, Component, onClickNext = null) {
   this.step = step;
@@ -15,6 +16,8 @@ function ShippingSteps(step, label, Component, onClickNext = null) {
 }
 
 function Shipping() {
+  const router = useRouter();
+
   const steps = [
     new ShippingSteps(0, 'Shipping Address', ShippingAddress, (ref, next) => {
       return () => ref.current.handleSubmit(next);
@@ -28,7 +31,12 @@ function Shipping() {
   const [ActiveComponent, setActiveComponent] = useState(steps[0].component);
 
   useEffect(() => {
-    setActiveStep(state.cart?.activeStep ?? 0);
+    if (state.cart.itemCount <= 0) {
+      alert('Your cart is empty. Go to shopping!');
+      router.push('/');
+    } else {
+      setActiveStep(state.cart?.activeStep ?? 0);
+    }
   }, []);
 
   useEffect(() => {
