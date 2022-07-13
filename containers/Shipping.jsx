@@ -7,11 +7,17 @@ import PlaceOrder from './PlaceOrder';
 import { CART_CHECKOUT_ACTIVE_STEP } from '../utils/redux/constants/cartConstants';
 import { useRouter } from 'next/router';
 
-function ShippingSteps(step, label, Component, onClickNext = null) {
+function ShippingSteps({
+  step,
+  label,
+  Component,
+  onClickNext = null,
+  ...props
+}) {
   this.step = step;
   this.label = label;
   this.ref = useRef(null);
-  this.component = <Component ref={this.ref} />;
+  this.component = <Component ref={this.ref} {...props} />;
   this.onClickNext = onClickNext;
 }
 
@@ -19,11 +25,23 @@ function Shipping() {
   const router = useRouter();
 
   const steps = [
-    new ShippingSteps(0, 'Shipping Address', ShippingAddress, (ref, next) => {
-      return () => ref.current.handleSubmit(next);
+    new ShippingSteps({
+      step: 0,
+      label: 'Shipping Address',
+      Component: ShippingAddress,
+      onClickNext: (ref, next) => {
+        return () => ref.current.handleSubmit(next);
+      },
     }),
-    new ShippingSteps(1, 'Payment Method', Payment),
-    new ShippingSteps(2, 'Place Order', PlaceOrder),
+    new ShippingSteps({ step: 1, label: 'Payment Method', Component: Payment }),
+    new ShippingSteps({
+      step: 2,
+      label: 'Place Order',
+      Component: PlaceOrder,
+      handleModify: (step) => {
+        handleStepchange(step);
+      },
+    }),
   ];
 
   const { state, dispatch } = useContext(Store);
@@ -52,9 +70,9 @@ function Shipping() {
       return;
     }
 
-    if (nextStep > activeStep + 1) {
-      nextStep = activeStep + 1;
-    }
+    // if (nextStep > activeStep + 1) {
+    //   nextStep = activeStep + 1;
+    // }
 
     if (
       nextStep > activeStep &&

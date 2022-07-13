@@ -31,7 +31,7 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
           );
         })}
       </button>
-      <div className="flex justify-center">{children}</div>
+      <div className="flex justify-center w-full">{children}</div>
 
       <div className="my-5 flex justify-between">
         <button
@@ -43,7 +43,8 @@ function ChekoutWizard({ steps = [], activeStep = 0, onClickStep, children }) {
         </button>
         <button
           onClick={() => handleClickNext(activeStep + 1)}
-          className="primary-button"
+          className="primary-button disabled:invisible"
+          disabled={activeStep >= steps.length - 1}
         >
           Next
         </button>

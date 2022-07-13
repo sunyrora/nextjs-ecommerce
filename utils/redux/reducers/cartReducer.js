@@ -1,14 +1,18 @@
+import { round2 } from '../../utils';
 import * as cartActions from '../constants/cartConstants';
 import { KEY_CART_LOCALSTORAGE } from '../constants/globalConstants';
 import { initialState } from '../Store';
 
 const getCartItemCount = (cartItems) =>
   cartItems?.reduce((acc, item) => acc + Number(item?.qty), 0);
-const getCartSubTotal = (cartItems) =>
-  cartItems?.reduce(
+const getCartSubTotal = (cartItems) => {
+  const total = cartItems?.reduce(
     (price, item) => price + Number(item?.price) * Number(item?.qty),
     0
   );
+
+  return round2(total);
+};
 
 const addToCart = (cartState, newItem) => {
   const currentCart = cartState;
