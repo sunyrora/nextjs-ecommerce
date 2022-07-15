@@ -1,6 +1,6 @@
 import connectDB, { disconnectDB } from '../../../db/config';
 import User from '../../../db/models/Users';
-import { ERROR_USER_EXIST } from '../../../utils/redux/constants/errorMessages';
+import { ERROR_USER_EXIST } from '../../../utils/constants/errorMessages';
 
 /**
  *

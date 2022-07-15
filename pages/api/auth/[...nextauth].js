@@ -7,9 +7,9 @@ import User from '../../../db/models/Users';
 import {
   LOGIN_ERROR_USER_NOT_EXIST,
   LOGIN_ERROR_INVALID_PASSWORD,
-} from '../../../utils/constants';
+} from '../../../utils/constants/errorMessages';
 
-export default NextAuth({
+export const authOptions = {
   session: {
     strategy: 'jwt',
   },
@@ -77,4 +77,6 @@ export default NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+export default NextAuth(authOptions);

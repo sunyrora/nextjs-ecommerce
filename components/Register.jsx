@@ -4,7 +4,7 @@ import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { ERROR_USER_EXIST } from '../utils/redux/constants/errorMessages';
+import { ERROR_USER_EXIST } from '../utils/constants/errorMessages';
 
 function Register() {
   const { data: session, status: sessionStatus } = useSession();

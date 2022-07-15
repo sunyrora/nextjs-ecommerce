@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import {
   LOGIN_ERROR_USER_NOT_EXIST,
   LOGIN_ERROR_INVALID_PASSWORD,
-} from '../utils/constants';
+} from '../utils/constants/errorMessages';
 
 function Lgoin() {
   const { data: session, status: sessionStatus } = useSession();
