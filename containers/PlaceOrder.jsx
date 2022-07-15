@@ -1,5 +1,8 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
-import { forwardRef, useContext, useEffect } from 'react';
+import { forwardRef, useContext, useEffect, useState } from 'react';
+import { LOGIN_REQUIRED } from '../utils/constants/errorMessages';
+import { CART_CLEAR_ITEMS } from '../utils/redux/constants/cartConstants';
 import { Store } from '../utils/redux/Store';
 import { round2 } from '../utils/utils';
 import CartItemsTable from './CartItemsTable';
@@ -8,9 +11,12 @@ const PlaceOrder = forwardRef((props, ref) => {
   const { state, dispatch } = useContext(Store);
   const { handleModify } = props;
   const router = useRouter();
+  const { pathname } = router;
   const {
     cart: { cartItems, shippingAddress, paymentMethod, subTotal },
   } = state;
+
+  const [isLoading, setLoading] = useState(false);
 
   const itemsTotal = round2(subTotal);
   const tax = round2(itemsTotal * 0.15);
@@ -27,6 +33,57 @@ const PlaceOrder = forwardRef((props, ref) => {
       handleModify(0);
     }
   }, []);
+
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const { data } = await axios.post('/api/orders/place-order', {
+        orderItems: cartItems,
+        shippingAddress,
+        paymentMethod,
+        itemsTotal,
+        tax,
+        shippingCost,
+        totalCost,
+      });
+
+      setLoading(false);
+      dispatch({
+        type: CART_CLEAR_ITEMS,
+      });
+
+      // update count in stock
+      const { data: dataUpdateStock } = await axios.post(
+        '/api/orders/updateStock',
+        {
+          items: cartItems,
+        }
+      );
+
+      console.log('dataUpdateStock: ', dataUpdateStock);
+
+      router.push({
+        pathname: `/orders/${data._id}`,
+        // query: { order: JSON.stringify(data) },
+      });
+    } catch (error) {
+      setLoading(false);
+      console.error('Place Order error: ', error);
+      const { response } = error;
+      if (response.status === 401) {
+        if (response.data === LOGIN_REQUIRED) {
+          router.push({
+            pathname: '/unauthorized',
+            query: {
+              message: 'Login required',
+              redirect: pathname ?? '/',
+            },
+          });
+        }
+      }
+    }
+  };
 
   return (
     <div className="grid md:grid-cols-4 md:gap-5 w-full">
@@ -94,7 +151,11 @@ const PlaceOrder = forwardRef((props, ref) => {
               </div>
             </li>
             <li>
-              <button onClick={() => {}} className="primary-button w-full">
+              <button
+                className={`${isLoading && 'disabled'} primary-button w-full`}
+                disabled={isLoading}
+                onClick={handlePlaceOrder}
+              >
                 Place Order
               </button>
             </li>

@@ -1,5 +1,6 @@
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { Store } from '../utils/redux/Store';
 import Dropdown from './Dropdown';
@@ -7,6 +8,7 @@ import Dropdown from './Dropdown';
 function Header() {
   const { status, data: session } = useSession();
   const { state, dispatch } = useContext(Store);
+  const router = useRouter();
 
   const dropdownMenuItems = [
     {
@@ -14,7 +16,14 @@ function Header() {
       label: 'Profile',
     },
     {
-      handleOnClick: () => {},
+      handleOnClick: () => {
+        router.push({
+          pathname: '/orders/orderHistory',
+          query: {
+            userId: session.user._id,
+          },
+        });
+      },
       label: 'Oder History',
     },
     {

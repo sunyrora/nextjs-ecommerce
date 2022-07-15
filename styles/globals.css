@@ -62,4 +62,19 @@
   .fieldset-paymentMethod > div {
     @apply my-2;
   }
+
+  .alert-error {
+    @apply my-3 rounded-lg bg-red-100 p-3 text-red-700;
+  }
+
+  .alert-success {
+    @apply my-3 rounded-lg bg-green-100 p-3 text-green-700;
+  }
+
+  .order-item-row {
+    @apply py-5 text-center align-middle border-b;
+  }
+  .order-item-row-group {
+    @apply hover:cursor-pointer hover:bg-amber-100 hover:opacity-75 duration-700 ease-in-out;
+  }
 }
