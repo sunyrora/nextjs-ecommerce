@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 import connectDB, { disconnectDB } from '../../../db/config';
-import User from '../../../db/models/Users';
+import User from '../../../db/models/User';
 import {
   LOGIN_ERROR_USER_NOT_EXIST,
   LOGIN_ERROR_INVALID_PASSWORD,

@@ -1,5 +1,5 @@
 import connectDB, { disconnectDB } from '../../../db/config';
-import User from '../../../db/models/Users';
+import User from '../../../db/models/User';
 import { ERROR_USER_EXIST } from '../../../utils/constants/errorMessages';
 
 /**
