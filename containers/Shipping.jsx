@@ -1,7 +1,7 @@
 import { Store } from '../utils/redux/Store';
 import ChekoutWizard from './ChekoutWizard';
 import ShippingAddress from './ShippingAddress';
-import Payment from './Payment';
+import PaymentMethod from './PaymentMethod';
 import { useContext, useEffect, useRef, useState } from 'react';
 import PlaceOrder from './PlaceOrder';
 import { CART_CHECKOUT_ACTIVE_STEP } from '../utils/redux/constants/cartConstants';
@@ -33,7 +33,11 @@ function Shipping() {
         return () => ref.current.handleSubmit(next);
       },
     }),
-    new ShippingSteps({ step: 1, label: 'Payment Method', Component: Payment }),
+    new ShippingSteps({
+      step: 1,
+      label: 'Payment Method',
+      Component: PaymentMethod,
+    }),
     new ShippingSteps({
       step: 2,
       label: 'Place Order',

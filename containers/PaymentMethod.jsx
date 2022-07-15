@@ -8,7 +8,7 @@ import {
 import { CART_CHECKOUT_PAYMENT_METHOD } from '../utils/redux/constants/cartConstants';
 import { Store } from '../utils/redux/Store';
 
-const Payment = forwardRef((props, ref) => {
+const PaymentMethod = forwardRef((props, ref) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const { state, dispatch } = useContext(Store);
   const { paymentMethod } = state.cart;
@@ -67,4 +67,4 @@ const Payment = forwardRef((props, ref) => {
   );
 });
 
-export default Payment;
+export default PaymentMethod;
