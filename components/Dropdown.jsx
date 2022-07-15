@@ -24,7 +24,11 @@ function Dropdown({ data }) {
           {items?.map((item) => (
             <button
               key={item.label}
-              onClick={item.handleOnClick}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowDropMenu(false);
+                item.handleOnClick();
+              }}
               className="block text-sm text-left text-gray-700 hover:bg-stone-500 hover:text-white"
             >
               {item.label}
